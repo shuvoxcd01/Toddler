@@ -11,7 +11,7 @@ class Node:
         self.move = move  # the move that got us to this node - "None" for the root node
         self.parentNode = parent  # "None" for the root node.
         self.childNodes = []
-        self.wins = 0
+        self.value = 0
         self.visits = 0
         self.untried_moves = state.get_moves()  # future child nodes
         self.player_just_moved = state.player_just_moved  # the only part of the state that Node needs later
@@ -23,7 +23,7 @@ class Node:
         lambda c : c.wins/c.visits + UCTK * sqrt(2 * log(self.visits)/c.visits) to vary the amount of
         exploration versus exploitation.
         """
-        s = sorted(self.childNodes, key=lambda c: c.wins / c.visits + sqrt(2 * log(self.visits) / c.visits))[-1]
+        s = sorted(self.childNodes, key=lambda c: c.value / c.visits + sqrt(2 * log(self.visits) / c.visits))[-1]
         return s
 
     def add_child(self, m, s):
@@ -43,10 +43,10 @@ class Node:
         Result must be from the viewpoint of playerJustMoved.
         """
         self.visits += 1
-        self.wins += result
+        self.value += result
 
     def __repr__(self):
-        return "[M:" + str(self.move) + " W/V:" + str(self.wins) + "/" + str(self.visits) + " U:" + str(
+        return "[M:" + str(self.move) + " W/V:" + str(self.value) + "/" + str(self.visits) + " U:" + str(
             self.untried_moves) + "]"
 
     def tree_to_string(self, indent):

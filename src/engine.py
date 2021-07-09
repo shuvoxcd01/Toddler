@@ -1,8 +1,8 @@
 import chess
 import chess.svg
 
-from mcts import uct
-from state import ChessState
+from src.mcts import MCTS
+from src.state import ChessState
 
 
 class Engine:
@@ -17,7 +17,7 @@ class Engine:
         for move in moves:
             self.board.push(chess.Move.from_uci(move))
 
-    def find_best_move(self, max_iteration=10000):
+    def find_best_move(self, max_iteration=1000):
         root_state = ChessState(self.board, self.board.turn)
-        best_move = chess.Move.uci(uct(root_state, max_iteration))
+        best_move = chess.Move.uci(MCTS.search(root_state, max_iteration))
         return best_move
