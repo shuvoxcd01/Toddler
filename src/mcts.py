@@ -1,6 +1,6 @@
 import random
 
-from node import Node
+from src.node import Node
 
 
 class MCTS:
