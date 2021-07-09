@@ -1,7 +1,8 @@
 import chess
 import chess.svg
-from state import ChessState
-from mcts import uct
+
+from src.mcts import MCTS
+from src.state import ChessState
 
 players = ["Black", "White"]
 
@@ -18,9 +19,9 @@ def play_game():
     while state.get_moves():
         print(str(state))
         if state.player_just_moved == chess.BLACK:
-            m = uct(root_state=state, max_iteration=10, verbose=False)  # White
+            m = MCTS.search(root_state=state, max_iteration=1000, verbose=False)  # White
         else:
-            m = uct(root_state=state, max_iteration=1, verbose=False)  # Black
+            m = MCTS.search(root_state=state, max_iteration=1, verbose=False)  # Black
 
         print("Best Move: " + str(m) + "\n")
         state.do_move(m)
